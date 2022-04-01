@@ -24,6 +24,36 @@
 
 ### 注册 runner
 
+#### 命令行式
+[使用 docker 构建 docker](https://docs.gitlab.cn/jh/ci/docker/using_docker_build.html)
+
+1. 进入 runner 容器
+    - `$ docker exec -it 容器ID bash`
+
+2. 在 CI/CD 中启用 docker 命令
+    1. 使用 `docker in docker`，必须开启 `privileged`
+        ```sh
+        $ gitlab-runner register -n \
+            --url https://gitlab.com/ \
+            --registration-token REGISTRATION_TOKEN \
+            --executor docker \
+            --description "My Docker Runner" \
+            --docker-image "docker:19.03.12" \
+            --docker-privileged \
+            --docker-volumes "/certs/client"
+        ```
+    2. 使用 `docker` 套接字
+        ```sh
+        sudo gitlab-runner register -n \
+            --url https://gitlab.com/ \
+            --registration-token REGISTRATION_TOKEN \
+            --executor docker \
+            --description "My Docker Runner" \
+            --docker-image "docker:19.03.12" \
+            --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+        ```
+#### 交互式
+
 1. 进入 runner 容器
     - `$ docker exec -it 容器ID bash`
 
@@ -32,7 +62,7 @@
 
 1. 输入 gitlab 示例的 url
     - Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.com ):``
-    - `$ http://192.168.1.10:8000/`
+    - `$ http://192.168.1.253:8000/`
 
 1. 输入用来注册 runner 的 token
     - Please enter the gitlab-ci token for this runner:
@@ -67,10 +97,10 @@
     gitlab_rails['smtp_address'] = "smtp.qq.com"
     gitlab_rails['smtp_domain'] = "smtp.qq.com"
     gitlab_rails['smtp_port'] = 465
-    gitlab_rails['smtp_user_name'] = "My Email"
+    gitlab_rails['smtp_user_name'] = "YOUR EMAIL"
     gitlab_rails['smtp_password'] = "SMTP 授权码"
     gitlab_rails['smtp_authentication'] = "login"
     gitlab_rails['smtp_enable_starttls_auto'] = true
     gitlab_rails['smtp_tls'] = true
-    gitlab_rails['gitlab_email_from'] = "My Email"
+    gitlab_rails['gitlab_email_from'] = "YOUR EMAIL"
 ```
