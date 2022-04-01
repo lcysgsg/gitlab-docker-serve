@@ -24,6 +24,26 @@
 
 ### 注册 runner
 
+#### Web IDE 交互式调试
+
+[Runner configuration](https://docs.gitlab.com/ee/user/project/web_ide/#runner-configuration) | [中文](https://docs.gitlab.cn/jh/user/project/web_ide#runner-%E9%85%8D%E7%BD%AE)
+
+> 必须在 runner 中配置一些东西才能让交互式 Web 终端工作：  
+> runner 需要 [session_server] 正确配置。此部分至少需要一个 session_timeout 值（默认为 1800 秒）和一个 listen_address 值。如果未定义 advertise_address，则使用 listen_address。  
+> 如果您在实例中使用反向代理，则 Web 终端必须启用。
+
+修改 `/etc/gitlab-runner/config.toml` 中的 `[session_server]` 区
+
+```toml
+[session_server]
+  # runner 运行的端口
+  listen_address = "[::]:8093"
+  # 运行的地址及端口，介绍是优先使用此
+  advertise_address = "192.168.1.253:8093"
+  # 默认就是 1800s
+  session_timeout = 1800
+```
+
 #### 命令行式
 
 [使用 docker 构建 docker](https://docs.gitlab.cn/jh/ci/docker/using_docker_build.html)
