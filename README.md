@@ -75,6 +75,9 @@
             --docker-volumes /var/run/docker.sock:/var/run/docker.sock
         ```
 
+3. 需要手动启用，否则会显示未激活状态
+    - `$ gitlab-runner verify`
+    - `$ gitlab-runner restart`
 #### 交互式
 
 1. 进入 runner 容器
